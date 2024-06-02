@@ -60,10 +60,10 @@ public class TouchHelper extends ItemTouchHelper.SimpleCallback {
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addSwipeRightActionIcon(R.drawable.del)
+                    .addSwipeRightActionIcon(R.drawable.delete111)
                     .addSwipeRightBackgroundColor(ContextCompat.getColor(adapter.getContext(),R.color.Crimson))
-                    .addSwipeLeftActionIcon(R.drawable.edit1)
-                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(adapter.getContext(),R.color.green))
+                    .addSwipeLeftActionIcon(R.drawable.edit111)
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(adapter.getContext(),R.color.blue_light))
                     .create()
                     .decorate();
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);

@@ -30,7 +30,7 @@ import java.util.List;
 public class AddProjectActivity extends AppCompatActivity implements OnDialogCloseListner{
 
     private RecyclerView recyclerView;
-    private com.google.android.material.imageview.ShapeableImageView button;
+    private com.google.android.material.floatingactionbutton.FloatingActionButton button;
 
     private FirebaseFirestore firestore;
     private ToDoAdapter adapter;
