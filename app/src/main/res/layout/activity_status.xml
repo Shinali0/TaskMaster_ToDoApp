@@ -1,9 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Status">
+    android:background="#ffffff"
+    tools:context=".Lables">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/topView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/bgview"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topView"
+        android:rowCount="4"
+        android:columnCount="1"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="25dp"
+
+        android:layout_marginTop="-80dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/todo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            android:layout_columnWeight="1"
+            app:cardBackgroundColor="#E3E7EA"
+            android:layout_rowWeight="1"
+            android:layout_row="0"
+            android:layout_column="0"
+            app:cardElevation="12dp"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/reddot"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To Do"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/green_blue"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/doing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            app:cardBackgroundColor="#E3E7EA"
+            android:layout_row="2"
+            android:layout_column="0"
+            app:cardElevation="12dp"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/yellowdot"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Doing"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/green_blue"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            app:cardBackgroundColor="#E3E7EA"
+            android:layout_row="3"
+            android:layout_column="0"
+            app:cardElevation="12dp"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/greendot"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Done"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/green_blue"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </GridLayout>
+
+    <ImageButton
+        android:id="@+id/backbtn"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:background="#00FFFFFF"
+        android:layout_alignTop="@+id/lable"
+        android:layout_alignBottom="@+id/lable"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="-1dp"
+        android:layout_toStartOf="@id/lable"
+        app:srcCompat="@drawable/backnew" />
+
+    <TextView
+        android:id="@+id/lable"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:elevation="20dp"
+        android:paddingTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="STATUS"
+        android:textColor="@color/green_blue"
+        android:textSize="26dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</RelativeLayout>

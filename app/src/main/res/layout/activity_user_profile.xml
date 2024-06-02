@@ -4,6 +4,159 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#809AAD"
     tools:context=".UserProfile">
+
+
+    <TextView
+        android:id="@+id/devinfo"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:elevation="20dp"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:text="USER PROFILE"
+        android:textColor="@color/green_blue"
+        android:textSize="26dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/backbtn"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/devinfo"
+        app:layout_constraintEnd_toStartOf="@+id/devinfo"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/devinfo"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/backnew" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="12dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/green_blue"
+        android:src="@drawable/userpic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/devinfo"
+        app:layout_constraintStart_toStartOf="@+id/devinfo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.108" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="Username :"
+            android:textColor="#285A7E"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/username12"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
+            android:background="#D5DEE3"
+            android:gravity="center"
+            android:text="Shinali Disanayaka"
+            android:textColor="@color/green_blue"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/studentNumber"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="Email :"
+            android:textColor="#285A7E"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/email12"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
+            android:background="#D5DEE3"
+            android:text="Email"
+            android:gravity="center"
+            android:textColor="@color/green_blue"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="5dp"
+            android:text="Edit Details"
+            android:textColor="@color/light_blue"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:backgroundTint="#5C83A1"
+            app:cornerRadius="10dp" />
+
+        <Button
+            android:id="@+id/profilepicedit"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="Edit Profile Picture"
+            android:textColor="@color/light_blue"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:backgroundTint="#5C83A1"
+            app:cornerRadius="10dp" />
+
+        <Button
+            android:id="@+id/btnlogout1"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:text="LOGOUT"
+            android:textSize="20dp"
+            android:backgroundTint="@color/green_blue"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:cornerRadius="10dp" />
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

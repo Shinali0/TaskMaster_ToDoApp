@@ -30,42 +30,30 @@
                     android:src="@drawable/aaa"
                     android:contentDescription="TODO" />
 
-                <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="112dp"
-                    android:background="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/imageView6"
-                    app:srcCompat="@drawable/user1"
-                    tools:ignore="MissingConstraints" />
 
                 <TextView
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:text="Username"
-                    android:textSize="25dp"
                     android:textColor="@color/green_blue"
+                    android:textSize="25dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView8"
-                    app:layout_constraintStart_toStartOf="@+id/imageView8"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+                    app:layout_constraintEnd_toEndOf="@+id/userimage"
+                    app:layout_constraintStart_toStartOf="@+id/userimage"
+                    app:layout_constraintTop_toBottomOf="@+id/userimage" />
 
                 <TextView
                     android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:text="Email"
-                    android:textSize="20dp"
                     android:textColor="#3F414C"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView8"
-                    app:layout_constraintStart_toStartOf="@+id/imageView8"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="@+id/username"
+                    app:layout_constraintStart_toStartOf="@+id/username"
                     app:layout_constraintTop_toBottomOf="@+id/username" />
 
                 <ImageButton
@@ -81,10 +69,14 @@
 
 
                 <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
                     android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/email">
 
@@ -101,9 +93,9 @@
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
                         android:text="Home"
-                        android:textStyle="bold"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/green_blue"
-                        android:textAlignment="viewStart" />
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/userprofile"
@@ -118,9 +110,9 @@
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
                         android:text="User Profile"
-                        android:textStyle="bold"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/green_blue"
-                        android:textAlignment="viewStart" />
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/projects"
@@ -135,9 +127,9 @@
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
                         android:text="Projects"
-                        android:textStyle="bold"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/green_blue"
-                        android:textAlignment="viewStart" />
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/labels"
@@ -151,10 +143,10 @@
                         android:drawableStart="@drawable/label"
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
-                        android:text="Lables"
-                        android:textStyle="bold"
+                        android:text="Labels"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/green_blue"
-                        android:textAlignment="viewStart" />
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/status"
@@ -169,9 +161,9 @@
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
                         android:text="Status"
-                        android:textStyle="bold"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/green_blue"
-                        android:textAlignment="viewStart" />
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/devdetails"
@@ -186,26 +178,40 @@
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
                         android:text="Dev. Info"
-                        android:textStyle="bold"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/green_blue"
-                        android:textAlignment="viewStart" />
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/logoutbtn"
+                        style="@android:style/Widget.Button"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        style="@android:style/Widget.Button"
-                        android:background="@drawable/btn_background_2"
-                        android:layout_marginEnd="32dp"
                         android:layout_marginStart="32dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        android:background="@drawable/btn_background_2"
                         android:text="LOGOUT"
-                        android:textStyle="bold"
+                        android:textColor="@color/white"
                         android:textSize="20dp"
-                        android:textColor="@color/white"/>
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userimage"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/userpic"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="#809AAD"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.087" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

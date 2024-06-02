@@ -1,7 +1,18 @@
 package com.example.todoapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.ListenerRegistration;
+
+import android.content.DialogInterface;
+import android.net.Uri;
+import android.os.Handler;
+import androidx.appcompat.app.AlertDialog;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +29,9 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class Navigation extends AppCompatActivity {
 
@@ -31,6 +45,8 @@ public class Navigation extends AppCompatActivity {
     private FirebaseFirestore fStore;
     String userId;
     private ListenerRegistration registration;
+    de.hdodenhof.circleimageview.CircleImageView userImage;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +56,14 @@ public class Navigation extends AppCompatActivity {
         logout = findViewById(R.id.logoutbtn);
         username = findViewById(R.id.username);
         email = findViewById(R.id.email);
+        userImage = findViewById(R.id.userimage);
 
         auth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         userId = auth.getCurrentUser().getUid();
+
 
         DocumentReference documentReference = fStore.collection("users").document(userId);
         registration = documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -57,26 +76,22 @@ public class Navigation extends AppCompatActivity {
             }
         });
 
+        StorageReference profileRef = storageReference.child("users/" + userId + "profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(userImage);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            }
+        });
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Remove the listener before logging out
-                if (registration != null) {
-                    registration.remove();
-                }
-
-                auth.signOut();
-                Toast.makeText(Navigation.this, "Logout Successful...", Toast.LENGTH_SHORT).show();
-
-                // Adding a slight delay before starting the new activity
-                new android.os.Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(Navigation.this, SignUpActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }, 1000); // 1-second delay
+                showLogoutDialog();
             }
         });
 
@@ -142,5 +157,44 @@ public class Navigation extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Navigation.this);
+        builder.setMessage("Logout of your account?")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        if (registration != null) {
+                            registration.remove();
+                        }
+
+                        auth.signOut();
+                        Toast.makeText(Navigation.this, "Logout Successful...", Toast.LENGTH_SHORT).show();
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(Navigation.this, SignUpActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }, 1000);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (registration != null) {
+            registration.remove();
+        }
     }
 }

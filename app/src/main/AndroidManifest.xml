@@ -15,6 +15,42 @@
         android:theme="@style/Theme.ToDoApp"
         tools:targetApi="31">
         <activity
+            android:name=".Done"
+            android:exported="false" />
+        <activity
+            android:name=".Doing"
+            android:exported="false" />
+        <activity
+            android:name=".ToDo"
+            android:exported="false" />
+        <activity
+            android:name=".Personal"
+            android:exported="false" />
+        <activity
+            android:name=".Work"
+            android:exported="false" />
+        <activity
+            android:name=".Habit"
+            android:exported="false" />
+        <activity
+            android:name=".Sports"
+            android:exported="false" />
+        <activity
+            android:name=".Study"
+            android:exported="false" />
+        <activity
+            android:name=".ToDoDashboard"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardToDo"
+            android:exported="false" />
+        <activity
+            android:name=".ToDoListDashboard"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotPassword"
+            android:exported="false" />
+        <activity
             android:name=".DevInfo"
             android:exported="false" />
         <activity
@@ -24,13 +60,7 @@
             android:name=".Lables"
             android:exported="false" />
         <activity
-            android:name=".Projects"
-            android:exported="false" />
-        <activity
             android:name=".UserProfile"
-            android:exported="false" />
-        <activity
-            android:name=".Model.UserProfile"
             android:exported="false" />
         <activity
             android:name=".Navigation"
