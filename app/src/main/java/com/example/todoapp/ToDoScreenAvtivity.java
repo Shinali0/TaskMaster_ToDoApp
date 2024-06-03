@@ -30,7 +30,7 @@ import java.util.Calendar;
 
 public class ToDoScreenAvtivity extends AppCompatActivity {
 
-    private ImageButton addbtn, navbtn;
+    private ImageButton addbtn, navbtn, labelnext, statusnext;
     TextView username;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
@@ -77,6 +77,24 @@ public class ToDoScreenAvtivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent intent=new Intent(ToDoScreenAvtivity.this,AddProjectActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        labelnext=findViewById(R.id.labelnext);
+        labelnext.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent=new Intent(ToDoScreenAvtivity.this,Lables.class);
+                startActivity(intent);
+            }
+        });
+
+        statusnext=findViewById(R.id.statusnext);
+        statusnext.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent=new Intent(ToDoScreenAvtivity.this,Status.class);
                 startActivity(intent);
             }
         });

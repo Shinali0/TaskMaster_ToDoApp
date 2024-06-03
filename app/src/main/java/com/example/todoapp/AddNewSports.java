@@ -33,8 +33,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddNewTask extends BottomSheetDialogFragment {
-    public static final String TAG = "AddNewTask";
+public class AddNewSports extends BottomSheetDialogFragment {
+    public static final String TAG = "AddNewSports";
 
     private TextView setDueDate;
     private EditText mTaskEdit;
@@ -45,15 +45,15 @@ public class AddNewTask extends BottomSheetDialogFragment {
     private String id="";
     private String dueDateUpdate="";
 
-    public static AddNewTask newInstance(){
-        return new AddNewTask();
+    public static AddNewSports newInstance(){
+        return new AddNewSports();
 
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.add_new_task , container, false);
+        return inflater.inflate(R.layout.add_new_task_lables , container, false);
     }
 
     @Override
@@ -71,14 +71,14 @@ public class AddNewTask extends BottomSheetDialogFragment {
         final  Bundle bundle=getArguments();
         if (bundle!=null){
             isUpdate=true;
-            String task = bundle.getString("task");
+            String sports = bundle.getString("sports");
             id=bundle.getString("id");
             dueDateUpdate=bundle.getString("due");
 
-            mTaskEdit.setText(task);
+            mTaskEdit.setText(sports);
             setDueDate.setText(dueDate);
 
-            if (task.length()>0){
+            if (sports.length()>0){
                 mSaveBtn.setEnabled(false);
                 mSaveBtn.setBackgroundColor(Color.GRAY);
             }
@@ -93,8 +93,8 @@ public class AddNewTask extends BottomSheetDialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().equals("")){
-                   mSaveBtn.setEnabled(false);
-                   mSaveBtn.setBackgroundColor(getResources().getColor(R.color.light_blue));
+                    mSaveBtn.setEnabled(false);
+                    mSaveBtn.setBackgroundColor(getResources().getColor(R.color.light_blue));
                 }else{
                     mSaveBtn.setEnabled(true);
                     mSaveBtn.setBackgroundColor(getResources().getColor(R.color.green_blue));
@@ -135,30 +135,30 @@ public class AddNewTask extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
 
-                String task = mTaskEdit.getText().toString();
+                String sports = mTaskEdit.getText().toString();
 
                 if (finalIsUpdate) {
-                    firestore.collection("task").document(id).update("task",task,"due",dueDate);
+                    firestore.collection("sports").document(id).update("sports",sports,"due",dueDate);
                     Toast.makeText(context,"Task Updated",Toast.LENGTH_SHORT).show();
                 }else {
 
-                    if (task.isEmpty()) {
-                        Toast.makeText(context, "Empty Project not Allowed !!", Toast.LENGTH_SHORT).show();
+                    if (sports.isEmpty()) {
+                        Toast.makeText(context, "Empty Task not Allowed !!", Toast.LENGTH_SHORT).show();
                     } else {
 
                         Map<String, Object> taskMap = new HashMap<>();
 
-                        taskMap.put("task", task);
+                        taskMap.put("sports", sports);
                         taskMap.put("due", dueDate);
                         taskMap.put("status", 0);
                         taskMap.put("time", FieldValue.serverTimestamp());
 
 
-                        firestore.collection("task").add(taskMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        firestore.collection("sports").add(taskMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(context, "Project Saved", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Sports Activity Saved", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }

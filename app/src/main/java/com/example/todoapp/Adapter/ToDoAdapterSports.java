@@ -12,37 +12,43 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todoapp.AddNewSports;
+import com.example.todoapp.AddNewStudy;
 import com.example.todoapp.AddNewTask;
 import com.example.todoapp.AddProjectActivity;
-import com.example.todoapp.MainActivity;
 import com.example.todoapp.Model.ToDoModel;
+import com.example.todoapp.Model.ToDoModelSports;
+import com.example.todoapp.Model.ToDoModelStudy;
 import com.example.todoapp.R;
+import com.example.todoapp.Sports;
+import com.example.todoapp.Study;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> {
+public class ToDoAdapterSports extends RecyclerView.Adapter<ToDoAdapterSports.MyViewHolder> {
 
-    private List<ToDoModel> todoList;
-    private AddProjectActivity activity;
+    private List<ToDoModelSports> todoList;
+    private Sports activity;
     private FirebaseFirestore firestore;
 
-    public ToDoAdapter(AddProjectActivity addProjectActivity, List<ToDoModel> todoList){
+    public ToDoAdapterSports(Sports sports, List<ToDoModelSports> todoList){
         this.todoList=todoList;
-        activity=addProjectActivity;
+        activity=sports;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(activity).inflate(R.layout.each_task,parent,false);
+        View view= LayoutInflater.from(activity).inflate(R.layout.each_study,parent,false);
         firestore=FirebaseFirestore.getInstance();
         return new MyViewHolder(view);
+
     }
 
     public void deleteTask(int position){
-        ToDoModel toDoModel=todoList.get(position);
-        firestore.collection("task").document(toDoModel.TaskId).delete();
+        ToDoModelSports toDoModelSports=todoList.get(position);
+        firestore.collection("sports").document(toDoModelSports.SportsId).delete();
         todoList.remove(position);
         notifyItemRemoved(position);
     }
@@ -51,32 +57,32 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
         return  activity;
     }
     public void editTask(int position){
-        ToDoModel toDoModel=todoList.get(position);
+        ToDoModelSports toDoModelSports=todoList.get(position);
 
         Bundle bundle=new Bundle();
-        bundle.putString("task",toDoModel.getTask());
-        bundle.putString("due",toDoModel.getDue());
-        bundle.putString("id", toDoModel.TaskId);
+        bundle.putString("sports",toDoModelSports.getSports());
+        bundle.putString("due",toDoModelSports.getDue());
+        bundle.putString("id", toDoModelSports.SportsId);
 
-        AddNewTask addNewTask=new AddNewTask();
-        addNewTask.setArguments(bundle);
-        addNewTask.show(activity.getSupportFragmentManager(), addNewTask.getTag());
+        AddNewSports addNewSports=new AddNewSports();
+        addNewSports.setArguments(bundle);
+        addNewSports.show(activity.getSupportFragmentManager(), addNewSports.getTag());
     }
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        ToDoModel toDoModel=todoList.get(position);
-        holder.mCheckBox.setText(toDoModel.getTask());
-        holder.mDueDateTv.setText("Due On " + toDoModel.getDue());
+        ToDoModelSports toDoModelSports=todoList.get(position);
+        holder.mCheckBox.setText(toDoModelSports.getSports());
+        holder.mDueDateTv.setText("Do Before " + toDoModelSports.getDue());
 
-        holder.mCheckBox.setChecked(toBoolean(toDoModel.getStatus()));
+        holder.mCheckBox.setChecked(toBoolean(toDoModelSports.getStatus()));
         holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    firestore.collection("task").document(toDoModel.TaskId).update("status",1);
+                    firestore.collection("sports").document(toDoModelSports.SportsId).update("status",1);
                 }else{
-                    firestore.collection("task").document(toDoModel.TaskId).update("status",0);
+                    firestore.collection("sports").document(toDoModelSports.SportsId).update("status",0);
                 }
             }
         });
@@ -94,7 +100,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-
         TextView mDueDateTv;
         CheckBox mCheckBox;
 
@@ -102,7 +107,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
             super(itemView);
             mDueDateTv=itemView.findViewById(R.id.due_date_tv);
             mCheckBox=itemView.findViewById(R.id.mcheckbox);
-
         }
     }
 }

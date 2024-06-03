@@ -1,11 +1,13 @@
 package com.example.todoapp.Model;
 
-public class ToDoModel extends  TaskId{
-    private String task,due;
+public class ToDoModelStudy extends  StudyId{
+    private String study,due;
     private int status;
 
 
-    public String getTask() {return task;}
+    public String getStudy() {
+        return study;
+    }
 
     public String getDue() {
         return due;

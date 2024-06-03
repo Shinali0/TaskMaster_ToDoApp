@@ -30,32 +30,28 @@ import java.util.List;
 public class AddProjectActivity extends AppCompatActivity implements OnDialogCloseListner{
 
     private RecyclerView recyclerView;
-    private com.google.android.material.floatingactionbutton.FloatingActionButton button;
-
+    private com.google.android.material.floatingactionbutton.FloatingActionButton addbutton;
     private FirebaseFirestore firestore;
     private ToDoAdapter adapter;
     private List<ToDoModel> mList;
-
     private Query query;
     private ListenerRegistration listenerRegistration;
     private ImageButton backbtn;
 
 
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
 
         recyclerView= findViewById(R.id.recyclerview);
-        button= findViewById(R.id.addbutton);
+        addbutton= findViewById(R.id.addbutton);
         firestore=FirebaseFirestore.getInstance();
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(AddProjectActivity.this));
 
-        button.setOnClickListener(new View.OnClickListener(){
+        addbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 AddNewTask.newInstance().show(getSupportFragmentManager() , AddNewTask.TAG);
@@ -85,24 +81,22 @@ public class AddProjectActivity extends AppCompatActivity implements OnDialogClo
     private void showData(){
         query=firestore.collection("task").orderBy("time", Query.Direction.DESCENDING);
 
-                listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        for (DocumentChange documentChange:value.getDocumentChanges()){
-                            if(documentChange.getType()==DocumentChange.Type.ADDED){
-                                String id=documentChange.getDocument().getId();
-                                ToDoModel toDoModel=documentChange.getDocument().toObject(ToDoModel.class).withId(id);
+        listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (DocumentChange documentChange:value.getDocumentChanges()){
+                    if(documentChange.getType()==DocumentChange.Type.ADDED){
+                        String id=documentChange.getDocument().getId();
+                        ToDoModel toDoModel=documentChange.getDocument().toObject(ToDoModel.class).withId(id);
 
-                                mList.add(toDoModel);
-                                adapter.notifyDataSetChanged();
-
-
-                            }
-                        }
-                        listenerRegistration.remove();
+                        mList.add(toDoModel);
+                        adapter.notifyDataSetChanged();
 
 
                     }
+                }
+                listenerRegistration.remove();
+            }
         });
     }
 
