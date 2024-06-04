@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_light"
+    tools:context=".EditProfile">
+
+    <View
+        android:id="@+id/topView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/bgview"/>
+
+    <TextView
+        android:id="@+id/devinfo2"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:elevation="20dp"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:text="EDIT PROFILE"
+        android:textColor="@color/green_blue"
+        android:textSize="26dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/backbtn2"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/devinfo2"
+        app:srcCompat="@drawable/backnew" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/userpic"
+        app:civ_border_color="@color/green_blue"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/devinfo2"
+        app:layout_constraintStart_toStartOf="@+id/devinfo2"
+        app:layout_constraintTop_toBottomOf="@+id/devinfo2"
+        app:layout_constraintVertical_bias="0.108" />
+
+    <EditText
+        android:id="@+id/editusername"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Username"
+        app:layout_constraintEnd_toEndOf="@+id/profileImage"
+        app:layout_constraintStart_toStartOf="@+id/profileImage"
+        app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+
+    <EditText
+        android:id="@+id/editemail"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Email"
+        app:layout_constraintEnd_toEndOf="@+id/editusername"
+        app:layout_constraintStart_toStartOf="@+id/editusername"
+        app:layout_constraintTop_toBottomOf="@+id/editusername" />
+
+    <Button
+        android:id="@+id/savebtneditprofile"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:backgroundTint="@color/green_blue"
+        android:text="Save Details"
+        android:textColor="@color/light_blue"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editemail"
+        app:layout_constraintStart_toStartOf="@+id/editemail"
+        app:layout_constraintTop_toBottomOf="@+id/editemail" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,54 +3,83 @@ package com.example.todoapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.todoapp.Adapter.ToDoScreenAdapter;
+import com.example.todoapp.Model.ToDoModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ToDoScreenAvtivity extends AppCompatActivity {
+public class ToDoScreenAvtivity extends AppCompatActivity implements OnDialogCloseListner{
+
+
 
     private ImageButton addbtn, navbtn, labelnext, statusnext;
+    private RecyclerView recyclerView;
+    private Query query;
+    private ListenerRegistration listenerRegistration;
     TextView username;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
+    private ToDoScreenAdapter adapter7;
+    private List<ToDoModel> mList;
+
     String userId;
     de.hdodenhof.circleimageview.CircleImageView userImage;
     Button btnstudy, btnsports, btnwork, btnpersonal, btnhabit, btntodo, btndoing, btndone;
     StorageReference storageReference;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_screen_avtivity);
+
+        recyclerView= findViewById(R.id.recyclerview1);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         username=findViewById(R.id.username);
         userImage = findViewById(R.id.profile);
 
         firebaseAuth=FirebaseAuth.getInstance();
+
         firebaseFirestore=FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
         userId=firebaseAuth.getCurrentUser().getUid();
+
+        mList=new ArrayList<>();
+        adapter7=new ToDoScreenAdapter(ToDoScreenAvtivity.this,mList);
+
+
+        showData();
+        recyclerView.setAdapter(adapter7);
+
 
         DocumentReference documentReference=firebaseFirestore.collection("users").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -157,7 +186,7 @@ public class ToDoScreenAvtivity extends AppCompatActivity {
         btntodo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ToDoScreenAvtivity.this, ToDo.class);
+                Intent intent = new Intent(ToDoScreenAvtivity.this, Todo.class);
                 startActivity(intent);
             }
         });
@@ -180,5 +209,34 @@ public class ToDoScreenAvtivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showData(){
+        query=firebaseFirestore.collection("task").orderBy("time", Query.Direction.DESCENDING);
+
+        listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (DocumentChange documentChange:value.getDocumentChanges()){
+                    if(documentChange.getType()==DocumentChange.Type.ADDED){
+                        String id=documentChange.getDocument().getId();
+                        ToDoModel toDoModel=documentChange.getDocument().toObject(ToDoModel.class).withId(id);
+
+                        mList.add(toDoModel);
+                        adapter7.notifyDataSetChanged();
+
+
+                    }
+                }
+                listenerRegistration.remove();
+            }
+        });
+    }
+
+    @Override
+    public void onDialogClose(DialogInterface dialogInterface) {
+        mList.clear();
+        showData();
+        adapter7.notifyDataSetChanged();
     }
 }

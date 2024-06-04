@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 
 public class DevInfo extends AppCompatActivity {
 
-    private ImageButton backbtn;
+    private ImageButton backbtn1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +17,8 @@ public class DevInfo extends AppCompatActivity {
         setContentView(R.layout.activity_dev_info);
 
 
-        backbtn = findViewById(R.id.backbtn);
-        backbtn.setOnClickListener(new View.OnClickListener() {
+        backbtn1= findViewById(R.id.backbtn1);
+        backbtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DevInfo.this, Navigation.class);

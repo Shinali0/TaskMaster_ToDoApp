@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 public class Status extends AppCompatActivity {
@@ -22,7 +21,7 @@ public class Status extends AppCompatActivity {
         btntodo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Status.this, ToDo.class);
+                Intent intent = new Intent(Status.this, Todo.class);
                 startActivity(intent);
             }
         });

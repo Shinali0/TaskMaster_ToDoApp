@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -38,7 +39,8 @@ public class UserProfile extends AppCompatActivity {
     TextView username, email;
     String rtvusername, rtvemail, loggedemail;
     FirebaseAuth auth;
-    private Button logout, changeProfileImage;
+    private Button logout;
+    Button changeProfileImage, editdetails;
     private FirebaseFirestore fStore;
     String userId;
     private ListenerRegistration registration;
@@ -53,6 +55,7 @@ public class UserProfile extends AppCompatActivity {
 
         profileImage=findViewById(R.id.profileImage);
         changeProfileImage=findViewById(R.id.profilepicedit);
+        editdetails=findViewById(R.id.editdetails);
 
         logout = findViewById(R.id.btnlogout1);
         username = findViewById(R.id.username12);
@@ -81,6 +84,8 @@ public class UserProfile extends AppCompatActivity {
                 if (documentSnapshot != null && documentSnapshot.exists()) {
                     username.setText(documentSnapshot.getString("userName"));
                     email.setText(documentSnapshot.getString("email"));
+                }else{
+                    Log.d("tag","onEvent: Document do not exists.");
                 }
             }
         });
@@ -102,6 +107,15 @@ public class UserProfile extends AppCompatActivity {
             }
         });
 
+        editdetails = findViewById(R.id.editdetails);
+        editdetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserProfile.this, EditProfile.class);
+                startActivity(intent);
+            }
+        });
+
         changeProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +123,20 @@ public class UserProfile extends AppCompatActivity {
                 startActivityForResult(openGalleryIntent,1000);
             }
         });
+
+        editdetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i= new Intent(v.getContext(),EditProfile.class);
+                i.putExtra("username", username.getText().toString());
+                i.putExtra("email", email.getText().toString());
+                startActivity(i);
+//                Intent openGalleryIntent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(openGalleryIntent,1000);
+            }
+        });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {

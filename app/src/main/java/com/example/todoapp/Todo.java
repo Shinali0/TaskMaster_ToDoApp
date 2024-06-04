@@ -12,10 +12,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.example.todoapp.Adapter.ToDoAdapterDone;
-
-import com.example.todoapp.Model.ToDoModelDone;
-
+import com.example.todoapp.Adapter.ToDoAdapterStudy;
+import com.example.todoapp.Adapter.ToDoAdapterTodo;
+import com.example.todoapp.Model.TaskId;
+import com.example.todoapp.Model.ToDoModel;
+import com.example.todoapp.Model.ToDoModelStudy;
+import com.example.todoapp.Model.ToDoModelTodo;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,36 +27,37 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Done extends AppCompatActivity implements OnDialogCloseListner{
+public class Todo extends AppCompatActivity implements OnDialogCloseListner{
 
     private RecyclerView recyclerView;
     private com.google.android.material.floatingactionbutton.FloatingActionButton addbutton;
     private FirebaseFirestore firestore;
-    private ToDoAdapterDone adapterx1;
+    private ToDoAdapterTodo adapterl1;
     private Query query;
     private ListenerRegistration listenerRegistration;
-    private List<ToDoModelDone> mList;
+    private List<ToDoModelTodo> mList;
     private ImageButton backbtn;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_done);
+        setContentView(R.layout.activity_to_do);
 
         recyclerView=findViewById(R.id.recyclerview);
         addbutton=findViewById(R.id.addbutton);
         firestore=FirebaseFirestore.getInstance();
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(Done.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(Todo.this));
 
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddNewDone.newInstance().show(getSupportFragmentManager(),AddNewDone.TAG);
+                AddNewTodo.newInstance().show(getSupportFragmentManager(),AddNewTodo.TAG);
 
             }
         });
@@ -63,23 +66,23 @@ public class Done extends AppCompatActivity implements OnDialogCloseListner{
         backbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent=new Intent(Done.this,Status.class);
+                Intent intent=new Intent(Todo.this,Status.class);
                 startActivity(intent);
             }
         });
 
         mList=new ArrayList<>();
-        adapterx1= new ToDoAdapterDone(Done.this,mList);
+        adapterl1= new ToDoAdapterTodo(Todo.this,mList);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new TouchHelperDone(adapterx1));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new TouchHelperTodo(adapterl1));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         showData();
-        recyclerView.setAdapter(adapterx1);
+        recyclerView.setAdapter(adapterl1);
     }
 
     private void showData(){
-        query=firestore.collection("done").orderBy("time", Query.Direction.DESCENDING);
+        query=firestore.collection("todo").orderBy("time", Query.Direction.DESCENDING);
 
         listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -87,10 +90,10 @@ public class Done extends AppCompatActivity implements OnDialogCloseListner{
                 for (DocumentChange documentChange:value.getDocumentChanges()){
                     if(documentChange.getType()==DocumentChange.Type.ADDED){
                         String id=documentChange.getDocument().getId();
-                        ToDoModelDone toDoModelDone=documentChange.getDocument().toObject(ToDoModelDone.class).withId(id);
+                        ToDoModelTodo toDoModelTodo=documentChange.getDocument().toObject(ToDoModelTodo.class).withId(id);
 
-                        mList.add(toDoModelDone);
-                        adapterx1.notifyDataSetChanged();
+                        mList.add(toDoModelTodo);
+                        adapterl1.notifyDataSetChanged();
 
 
                     }
@@ -104,8 +107,6 @@ public class Done extends AppCompatActivity implements OnDialogCloseListner{
     public void onDialogClose(DialogInterface dialogInterface) {
         mList.clear();
         showData();
-        adapterx1.notifyDataSetChanged();
+        adapterl1.notifyDataSetChanged();
     }
-
-
 }

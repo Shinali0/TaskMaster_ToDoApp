@@ -15,13 +15,16 @@
         android:theme="@style/Theme.ToDoApp"
         tools:targetApi="31">
         <activity
+            android:name=".EditProfile"
+            android:exported="false" />
+        <activity
             android:name=".Done"
             android:exported="false" />
         <activity
             android:name=".Doing"
             android:exported="false" />
         <activity
-            android:name=".ToDo"
+            android:name=".Todo"
             android:exported="false" />
         <activity
             android:name=".Personal"

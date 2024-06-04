@@ -118,7 +118,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/editdetails"
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_marginTop="30dp"
