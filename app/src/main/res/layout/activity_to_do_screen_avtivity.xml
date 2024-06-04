@@ -7,13 +7,25 @@
     tools:context=".ToDoScreenAvtivity"
     android:background="@color/green_blue">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/calendarcard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topView"/>
 
     <View
         android:id="@+id/topView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="300dp"
         android:background="@drawable/bgview"
         tools:ignore="MissingConstraints" />
+
 
     <TextView
         android:id="@+id/textView12"
@@ -56,11 +68,11 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:backgroundTint="#809AAD"
         android:scaleType="fitCenter"
-        android:src="@drawable/nav1"
+        android:src="@drawable/nav2"
         app:layout_constraintBottom_toBottomOf="@+id/textView12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView12" />
@@ -70,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="10dp"
         android:text="Projects"
         android:textColor="#ffffff"
         android:textSize="20dp"
@@ -103,7 +115,7 @@
         android:drawableEnd="@drawable/red"
         android:freezesText="false"
         android:text="ToDo "
-        android:textColor="#303D46"
+        android:textColor="@color/green_blue"
         android:textSize="18dp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
@@ -120,7 +132,7 @@
         android:drawableEnd="@drawable/yellow"
         android:freezesText="false"
         android:text="Doing "
-        android:textColor="#303D46"
+        android:textColor="@color/green_blue"
         android:textSize="18dp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
@@ -140,7 +152,7 @@
         android:drawableEnd="@drawable/green"
         android:freezesText="false"
         android:text="Done "
-        android:textColor="#303D46"
+        android:textColor="@color/green_blue"
         android:textSize="18dp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
@@ -160,7 +172,7 @@
         android:drawableEnd="@drawable/study1"
         android:freezesText="false"
         android:text="Study"
-        android:textColor="#303D46"
+        android:textColor="@color/green_blue"
         android:textSize="18dp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
@@ -175,7 +187,7 @@
         android:backgroundTint="#ffffff"
         android:text="Work"
         android:drawableEnd="@drawable/work1"
-        android:textColor="#303D46"
+        android:textColor="@color/green_blue"
         android:textSize="18dp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
@@ -190,7 +202,7 @@
         android:backgroundTint="#ffffff"
         android:text="Habit"
         android:drawableEnd="@drawable/habits1"
-        android:textColor="#303D46"
+        android:textColor="@color/green_blue"
         android:textSize="18dp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
@@ -205,7 +217,7 @@
         android:backgroundTint="#ffffff"
         android:drawableEnd="@drawable/spots1"
         android:text="Sports"
-        android:textColor="#303D46"
+        android:textColor="@color/green_blue"
         android:textSize="18dp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
@@ -222,7 +234,7 @@
         android:backgroundTint="#ffffff"
         android:text="Personal"
         android:drawableEnd="@drawable/personal1"
-        android:textColor="#303D46"
+        android:textColor="@color/green_blue"
         android:textSize="18dp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
@@ -245,13 +257,14 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="2dp"
         android:inputType="text"
         android:text="Username"
-        android:textStyle="bold"
-        android:textColor="@color/white"
+        android:textColor="#C2CFD8"
         android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="@+id/topView"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
         app:layout_constraintEnd_toEndOf="@+id/profile"
         app:layout_constraintStart_toStartOf="@+id/profile"
         app:layout_constraintTop_toBottomOf="@+id/profile" />
@@ -291,6 +304,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        app:layout_constraintEnd_toEndOf="@+id/topView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        app:srcCompat="@drawable/dashbackground" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,5 +58,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation("com.google.android.gms:play-services-auth:20.0.0")
 
 }

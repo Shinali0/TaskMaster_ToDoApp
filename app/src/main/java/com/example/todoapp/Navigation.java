@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -72,19 +73,18 @@ public class Navigation extends AppCompatActivity {
                 if (documentSnapshot != null && documentSnapshot.exists()) {
                     username.setText(documentSnapshot.getString("userName"));
                     email.setText(documentSnapshot.getString("email"));
+                }else{
+                    Log.d("tag","onEvent: Document do not exists.");
                 }
             }
         });
 
-        StorageReference profileRef = storageReference.child("users/" + userId + "profile.jpg");
+        StorageReference profileRef=storageReference.child("users/"+auth.getCurrentUser().getUid()+"profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(userImage);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+
             }
         });
 

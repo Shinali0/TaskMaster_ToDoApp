@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -85,19 +86,20 @@ public class ToDoScreenAvtivity extends AppCompatActivity implements OnDialogClo
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                username.setText(documentSnapshot.getString("userName"));
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    username.setText(documentSnapshot.getString("userName"));
+                } else {
+                    Log.d("tag", "onEvent: Document do not exists.");
+                }
             }
         });
 
-        StorageReference profileRef = storageReference.child("users/" + userId + "profile.jpg");
+        StorageReference profileRef=storageReference.child("users/"+firebaseAuth.getCurrentUser().getUid()+"profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(userImage);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+
             }
         });
 
@@ -210,6 +212,7 @@ public class ToDoScreenAvtivity extends AppCompatActivity implements OnDialogClo
         });
 
     }
+
 
     private void showData(){
         query=firebaseFirestore.collection("task").orderBy("time", Query.Direction.DESCENDING);
