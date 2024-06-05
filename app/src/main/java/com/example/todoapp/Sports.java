@@ -18,6 +18,8 @@ import com.example.todoapp.Model.TaskId;
 import com.example.todoapp.Model.ToDoModel;
 import com.example.todoapp.Model.ToDoModelSports;
 import com.example.todoapp.Model.ToDoModelStudy;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,6 +38,9 @@ public class Sports extends AppCompatActivity implements OnDialogCloseListner{
     private com.google.android.material.floatingactionbutton.FloatingActionButton addbutton;
     private FirebaseFirestore firestore;
     private ToDoAdapterSports adapter2;
+
+    private FirebaseAuth auth;
+    private FirebaseUser user;
     private Query query;
     private ListenerRegistration listenerRegistration;
     private List<ToDoModelSports> mList;
@@ -82,25 +87,36 @@ public class Sports extends AppCompatActivity implements OnDialogCloseListner{
     }
 
     private void showData(){
-        query=firestore.collection("sports").orderBy("time", Query.Direction.DESCENDING);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for (DocumentChange documentChange:value.getDocumentChanges()){
-                    if(documentChange.getType()==DocumentChange.Type.ADDED){
-                        String id=documentChange.getDocument().getId();
-                        ToDoModelSports toDoModelSports=documentChange.getDocument().toObject(ToDoModelSports.class).withId(id);
+        if (user != null) {
+            String userId = user.getUid();
 
-                        mList.add(toDoModelSports);
-                        adapter2.notifyDataSetChanged();
+            query = firestore.collection("sports")
+                    .whereEqualTo("userId", userId)
+                    .orderBy("time", Query.Direction.DESCENDING);
 
-
+            listenerRegistration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        return;
                     }
+
+                    for (DocumentChange documentChange : value.getDocumentChanges()) {
+                        if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                            String id = documentChange.getDocument().getId();
+                            ToDoModelSports toDoModelSports = documentChange.getDocument().toObject(ToDoModelSports.class).withId(id);
+
+                            mList.add(toDoModelSports);
+                            adapter2.notifyDataSetChanged();
+                        }
+                    }
+                    listenerRegistration.remove();
                 }
-                listenerRegistration.remove();
-            }
-        });
+            });
+        }
+
     }
 
     @Override

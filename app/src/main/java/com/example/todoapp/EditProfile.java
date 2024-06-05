@@ -86,6 +86,7 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(EditProfile.this, UserProfile.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -162,5 +163,13 @@ public class EditProfile extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Failed.",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(EditProfile.this,UserProfile.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 }

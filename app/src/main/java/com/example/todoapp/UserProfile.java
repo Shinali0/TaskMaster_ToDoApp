@@ -104,6 +104,7 @@ public class UserProfile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfile.this, Navigation.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -208,5 +209,13 @@ public class UserProfile extends AppCompatActivity {
         if (registration != null) {
             registration.remove();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(UserProfile.this,Navigation.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 }

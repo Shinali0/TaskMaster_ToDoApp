@@ -18,6 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -40,6 +43,9 @@ public class AddNewSports extends BottomSheetDialogFragment {
     private EditText mTaskEdit;
     private Button mSaveBtn;
     private FirebaseFirestore firestore;
+
+    private FirebaseAuth auth;
+    private FirebaseUser user;
     private Context context;
     private String dueDate = "";
     private String id="";
@@ -63,6 +69,9 @@ public class AddNewSports extends BottomSheetDialogFragment {
         setDueDate=view.findViewById(R.id.set_due_tv);
         mTaskEdit=view.findViewById(R.id.task_edittext);
         mSaveBtn=view.findViewById(R.id.save_btn);
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         firestore=FirebaseFirestore.getInstance();
 
@@ -146,30 +155,33 @@ public class AddNewSports extends BottomSheetDialogFragment {
                         Toast.makeText(context, "Empty Task not Allowed !!", Toast.LENGTH_SHORT).show();
                     } else {
 
-                        Map<String, Object> taskMap = new HashMap<>();
+                        if (user != null) {
+                            String userId = user.getUid();
 
-                        taskMap.put("sports", sports);
-                        taskMap.put("due", dueDate);
-                        taskMap.put("status", 0);
-                        taskMap.put("time", FieldValue.serverTimestamp());
+                            Map<String, Object> taskMap = new HashMap<>();
 
+                            taskMap.put("sports", sports);
+                            taskMap.put("due", dueDate);
+                            taskMap.put("status", 0);
+                            taskMap.put("time", FieldValue.serverTimestamp());
+                            taskMap.put("userId", userId);
 
-                        firestore.collection("sports").add(taskMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(context, "Sports Activity Saved", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            firestore.collection("sports").add(taskMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(context, "Sports Activity Saved", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                     }
                 }
                 dismiss();

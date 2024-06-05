@@ -25,6 +25,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,6 +42,8 @@ public class AddNewWork extends BottomSheetDialogFragment {
     private EditText mTaskEdit;
     private Button mSaveBtn;
     private FirebaseFirestore firestore;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
     private Context context;
     private String dueDate = "";
     private String id="";
@@ -65,6 +69,9 @@ public class AddNewWork extends BottomSheetDialogFragment {
         mSaveBtn=view.findViewById(R.id.save_btn);
 
         firestore=FirebaseFirestore.getInstance();
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         boolean isUpdate=false;
 
@@ -146,30 +153,34 @@ public class AddNewWork extends BottomSheetDialogFragment {
                         Toast.makeText(context, "Empty Task not Allowed !!", Toast.LENGTH_SHORT).show();
                     } else {
 
-                        Map<String, Object> taskMap = new HashMap<>();
+                        if (user != null) {
+                            String userId = user.getUid();
 
-                        taskMap.put("work", work);
-                        taskMap.put("due", dueDate);
-                        taskMap.put("status", 0);
-                        taskMap.put("time", FieldValue.serverTimestamp());
+                            Map<String, Object> taskMap = new HashMap<>();
+
+                            taskMap.put("work", work);
+                            taskMap.put("due", dueDate);
+                            taskMap.put("status", 0);
+                            taskMap.put("time", FieldValue.serverTimestamp());
+                            taskMap.put("userId", userId);
 
 
-                        firestore.collection("work").add(taskMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(context, "Work Activity Saved", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            firestore.collection("work").add(taskMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(context, "Work Activity Saved", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                     }
                 }
                 dismiss();

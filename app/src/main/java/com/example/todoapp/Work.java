@@ -18,6 +18,8 @@ import com.example.todoapp.Model.TaskId;
 import com.example.todoapp.Model.ToDoModel;
 import com.example.todoapp.Model.ToDoModelStudy;
 import com.example.todoapp.Model.ToDoModelWork;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,6 +38,8 @@ public class Work extends AppCompatActivity implements OnDialogCloseListner{
     private com.google.android.material.floatingactionbutton.FloatingActionButton addbutton;
     private FirebaseFirestore firestore;
     private ToDoAdapterWork adapter3;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
     private Query query;
     private ListenerRegistration listenerRegistration;
     private List<ToDoModelWork> mList;
@@ -82,25 +86,37 @@ public class Work extends AppCompatActivity implements OnDialogCloseListner{
     }
 
     private void showData(){
-        query=firestore.collection("work").orderBy("time", Query.Direction.DESCENDING);
 
-        listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for (DocumentChange documentChange:value.getDocumentChanges()){
-                    if(documentChange.getType()==DocumentChange.Type.ADDED){
-                        String id=documentChange.getDocument().getId();
-                        ToDoModelWork toDoModelWork=documentChange.getDocument().toObject(ToDoModelWork.class).withId(id);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                        mList.add(toDoModelWork);
-                        adapter3.notifyDataSetChanged();
+        if (user != null) {
+            String userId = user.getUid();
+
+            query = firestore.collection("work")
+                    .whereEqualTo("userId", userId)
+                    .orderBy("time", Query.Direction.DESCENDING);
 
 
+            listenerRegistration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        return;
                     }
+
+                    for (DocumentChange documentChange : value.getDocumentChanges()) {
+                        if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                            String id = documentChange.getDocument().getId();
+                            ToDoModelWork toDoModelWork = documentChange.getDocument().toObject(ToDoModelWork.class).withId(id);
+
+                            mList.add(toDoModelWork);
+                            adapter3.notifyDataSetChanged();
+                        }
+                    }
+                    listenerRegistration.remove();
                 }
-                listenerRegistration.remove();
-            }
-        });
+            });
+        }
     }
 
     @Override

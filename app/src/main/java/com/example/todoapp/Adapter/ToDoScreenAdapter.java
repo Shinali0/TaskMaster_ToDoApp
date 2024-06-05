@@ -33,7 +33,7 @@ public class ToDoScreenAdapter extends RecyclerView.Adapter<ToDoScreenAdapter.My
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(activity7).inflate(R.layout.each_task_todo,parent,false);
         firestore=FirebaseFirestore.getInstance();
-        return new ToDoScreenAdapter.MyViewHolder(view);
+        return new MyViewHolder(view);
     }
 
     @Override

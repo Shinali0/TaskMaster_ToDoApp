@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 
 import com.example.todoapp.Adapter.ToDoAdapter;
 import com.example.todoapp.Model.ToDoModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,6 +24,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +40,8 @@ public class AddProjectActivity extends AppCompatActivity implements OnDialogClo
     private FirebaseFirestore firestore;
     private ToDoAdapter adapter;
     private List<ToDoModel> mList;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
     private Query query;
     private ListenerRegistration listenerRegistration;
     private ImageButton backbtn;
@@ -65,6 +73,7 @@ public class AddProjectActivity extends AppCompatActivity implements OnDialogClo
             public void onClick(View v){
                 Intent intent=new Intent(AddProjectActivity.this,ToDoScreenAvtivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -79,26 +88,37 @@ public class AddProjectActivity extends AppCompatActivity implements OnDialogClo
     }
 
     private void showData(){
-        query=firestore.collection("task").orderBy("time", Query.Direction.DESCENDING);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for (DocumentChange documentChange:value.getDocumentChanges()){
-                    if(documentChange.getType()==DocumentChange.Type.ADDED){
-                        String id=documentChange.getDocument().getId();
-                        ToDoModel toDoModel=documentChange.getDocument().toObject(ToDoModel.class).withId(id);
+        if (user != null) {
+            String userId = user.getUid();
 
-                        mList.add(toDoModel);
-                        adapter.notifyDataSetChanged();
+            query = firestore.collection("task")
+                    .whereEqualTo("userId", userId)
+                    .orderBy("time", Query.Direction.DESCENDING);
 
-
+            listenerRegistration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        return;
                     }
+
+                    for (DocumentChange documentChange : value.getDocumentChanges()) {
+                        if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                            String id = documentChange.getDocument().getId();
+                            ToDoModel toDoModel = documentChange.getDocument().toObject(ToDoModel.class).withId(id);
+
+                            mList.add(toDoModel);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                    listenerRegistration.remove();
                 }
-                listenerRegistration.remove();
-            }
-        });
+            });
+        }
     }
+
 
     @Override
     public void onDialogClose(DialogInterface dialogInterface) {
@@ -106,5 +126,13 @@ public class AddProjectActivity extends AppCompatActivity implements OnDialogClo
         showData();
         adapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AddProjectActivity.this,ToDoScreenAvtivity.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 }

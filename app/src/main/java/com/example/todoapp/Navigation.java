@@ -110,6 +110,7 @@ public class Navigation extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Navigation.this, ToDoScreenAvtivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -196,5 +197,12 @@ public class Navigation extends AppCompatActivity {
         if (registration != null) {
             registration.remove();
         }
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Navigation.this,ToDoScreenAvtivity.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 }

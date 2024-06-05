@@ -14,9 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDoApp"
         tools:targetApi="31">
-        <activity
-            android:name=".CalendarView"
-            android:exported="false" />
+
         <activity
             android:name=".EditProfile"
             android:exported="false" />
@@ -43,15 +41,6 @@
             android:exported="false" />
         <activity
             android:name=".Study"
-            android:exported="false" />
-        <activity
-            android:name=".ToDoDashboard"
-            android:exported="false" />
-        <activity
-            android:name=".DashboardToDo"
-            android:exported="false" />
-        <activity
-            android:name=".ToDoListDashboard"
             android:exported="false" />
         <activity
             android:name=".ForgotPassword"

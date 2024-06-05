@@ -16,6 +16,8 @@ import com.example.todoapp.Adapter.ToDoAdapterStudy;
 import com.example.todoapp.Model.TaskId;
 import com.example.todoapp.Model.ToDoModel;
 import com.example.todoapp.Model.ToDoModelStudy;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -80,25 +82,36 @@ public class Study extends AppCompatActivity implements OnDialogCloseListner{
     }
 
     private void showData(){
-        query=firestore.collection("study").orderBy("time", Query.Direction.DESCENDING);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for (DocumentChange documentChange:value.getDocumentChanges()){
-                    if(documentChange.getType()==DocumentChange.Type.ADDED){
-                        String id=documentChange.getDocument().getId();
-                        ToDoModelStudy toDoModelStudy=documentChange.getDocument().toObject(ToDoModelStudy.class).withId(id);
+        if (user != null) {
+            String userId = user.getUid();
 
-                        mList.add(toDoModelStudy);
-                        adapter1.notifyDataSetChanged();
+            query = firestore.collection("study")
+                    .whereEqualTo("userId", userId)
+                    .orderBy("time", Query.Direction.DESCENDING);
 
-
+            listenerRegistration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        return;
                     }
+
+                    for (DocumentChange documentChange : value.getDocumentChanges()) {
+                        if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                            String id = documentChange.getDocument().getId();
+                            ToDoModelStudy toDoModelStudy = documentChange.getDocument().toObject(ToDoModelStudy.class).withId(id);
+
+                            mList.add(toDoModelStudy);
+                            adapter1.notifyDataSetChanged();
+
+                        }
+                    }
+                    listenerRegistration.remove();
                 }
-                listenerRegistration.remove();
-            }
-        });
+            });
+        }
     }
 
     @Override
