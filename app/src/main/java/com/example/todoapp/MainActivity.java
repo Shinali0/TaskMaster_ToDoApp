@@ -36,6 +36,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
 //hjfw
+//    new comment
     public static final String TAG = "TAG";
     EditText editTextemail, editTextusername, editTextpassword;
     boolean passwordVisible;
